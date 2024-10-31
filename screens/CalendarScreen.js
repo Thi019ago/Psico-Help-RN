@@ -91,7 +91,7 @@ export default function CalendarScreen() {
       </ScrollView>
 
       <View style={styles.doctorCard}>
-        <Image source={require('../assets/image/calendar/profile-Pic-Icon.png')} style={styles.doctorImage} />
+        <Image source={require('../assets/image/info/profile-Icon.png')} style={styles.doctorImage} />
 
         <View style={styles.doctorDetails}>
           <Text style={styles.doctorSpecialty}>Psicóloga</Text>
