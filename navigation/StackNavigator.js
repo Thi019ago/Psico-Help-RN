@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,40 +21,52 @@ import NotificacaoScreen from '../screens/NotificacaoScreen';
 import PixScreen from '../screens/PixScreen';
 import CartaoScreen from '../screens/CartaoScreen';
 import DinheiroScreen from '../screens/DinheiroScreen';
-import Home from '../assets/image/navigator/home-Icon.png';
-import Calendar from '../assets/image/navigator/calendar-Icon.png';
-import Jornal from '../assets/image/navigator/info-Icon.png';
-import Perfil from '../assets/image/navigator/perfil-Icon.png';
 import ModoDarkScreen from '../screens/ModoDarkScreen';
+
+//Importando icones
+import HomeIconInactive from '../assets/image/navigator/home-Icon.png';
+import HomeIconActive from '../assets/image/navigator/home-Icon-Full.png';
+import CalendarIconInactive from '../assets/image/navigator/calendar-Icon.png';
+import CalendarIconActive from '../assets/image/navigator/calendar-Icon-Full.png';
+import InfoIconInactive from '../assets/image/navigator/info-Icon.png';
+import InfoIconActive from '../assets/image/navigator/info-Icon-Full.png';
+import PerfilIconInactive from '../assets/image/navigator/perfil-Icon.png';
+import PerfilIconActive from '../assets/image/navigator/perfil-Icon-Full.png';
+
 
 
 
 
 export default function StackNavigator() {
 
-    const checkLoggedInStatus = async () => {
-        const token = await AsyncStorage.getItem("authToken");
-        if (token) {
-            // Se o token existe, navegue para a tela principal
-            return "Main";
-        }
-        return "Login"; // Se não, navegue para a tela de login
-    };
-
     const Tab = createBottomTabNavigator();
 
-    function BottomTabs() {
+    const [activeTab, setActiveTab] = useState("Home")
+
+    function BottomTabs({ navigation }) {
         return (
             <Tab.Navigator>
                 <Tab.Screen
                     name="Home"
                     component={HomeScreen}
                     options={{
-                        headerShown: false, tabBarButton: (props) => (<TouchableOpacity onPress={() => navigation.navigate("Home")}
-                            {...props}>
-                            <Image source={Home} style={{ width: 27, height: 27, marginBottom: 10 }} />
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                source={focused ? HomeIconActive : HomeIconInactive}
+                                style={{ width: 27, height: 27, marginBottom: 1 }}
+                            />
+                        ),
+                        tabBarButton: (props) => (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setActiveTab('home');
+                                    navigation.navigate("Home");
+                                }}
+                                {...props}
+                            />
 
-                        </TouchableOpacity>),
+                        ),
                         tabBarLabel: () => null,
 
                     }} />
@@ -63,44 +75,81 @@ export default function StackNavigator() {
                     name="Calendar"
                     component={CalendarScreen}
                     options={{
-                        headerShown: false, tabBarButton: (props) => (<TouchableOpacity onPress={() => navigation.navigate("Calendar")}
-                            {...props}>
-                            <Image source={Calendar} style={{ width: 27, height: 27, marginBottom: 10 }} />
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                source={focused ? CalendarIconActive : CalendarIconInactive}
+                                style={{ width: 27, height: 27, marginBottom: 1 }}
+                            />
+                        ),
+                        tabBarButton: (props) => (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setActiveTab('Calendar');
+                                    navigation.navigate("Calendar");
+                                }}
+                                {...props}
+                            />
 
-                        </TouchableOpacity>),
+                        ),
                         tabBarLabel: () => null,
-
-                    }} />
+                    }}
+                />
 
                 <Tab.Screen
                     name="Info"
                     component={InfoScreen}
                     options={{
-                        headerShown: false, tabBarButton: (props) => (<TouchableOpacity onPress={() => navigation.navigate("Info")}
-                            {...props}>
-                            <Image source={Jornal} style={{ width: 27, height: 27, marginBottom: 10 }} />
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                source={focused ? InfoIconActive : InfoIconInactive}
+                                style={{ width: 27, height: 27, marginBottom: 1 }}
+                            />
+                        ),
+                        tabBarButton: (props) => (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setActiveTab('info');
+                                    navigation.navigate("Info");
+                                }}
+                                {...props}
+                            />
 
-                        </TouchableOpacity>),
+                        ),
                         tabBarLabel: () => null,
-
-                    }} />
+                    }}
+                />
 
                 <Tab.Screen
                     name="Perfil"
                     component={PerfilScreen}
                     options={{
-                        headerShown: false, tabBarButton: (props) => (<TouchableOpacity onPress={() => navigation.navigate("Perfil")}
-                            {...props}>
-                            <Image source={Perfil} style={{ width: 27, height: 27, marginBottom: 10 }} />
-                        </TouchableOpacity>),
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                source={focused ? PerfilIconActive : PerfilIconInactive}
+                                style={{ width: 27, height: 27, marginBottom: 1 }}
+                            />
+                        ),
+                        tabBarButton: (props) => (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setActiveTab('perfil');
+                                    navigation.navigate("Perfil");
+                                }}
+                                {...props}
+                            />
+
+                        ),
                         tabBarLabel: () => null,
-
-                    }} />
-
+                    }}
+                />
             </Tab.Navigator>
 
 
         )
+
 
     }
 
@@ -144,8 +193,8 @@ export default function StackNavigator() {
 
                 <Stack.Screen name='Dinheiro' component={DinheiroScreen} options={{ headerShown: false }} />
 
-                <Stack.Screen name='DarkMode' component={ModoDarkScreen} options={{headerShown:false}}/>
-               
+                <Stack.Screen name='DarkMode' component={ModoDarkScreen} options={{ headerShown: false }} />
+
 
             </Stack.Navigator>
         </NavigationContainer>
